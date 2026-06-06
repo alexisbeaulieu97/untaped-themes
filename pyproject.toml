@@ -8,7 +8,7 @@ authors = [
 ]
 requires-python = ">=3.14"
 dependencies = [
-    "untaped",
+    "untaped>=0.1.0",
 ]
 
 [project.entry-points."untaped.plugins"]
