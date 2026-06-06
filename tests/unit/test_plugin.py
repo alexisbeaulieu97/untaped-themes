@@ -21,6 +21,59 @@ from untaped_themes.plugin import THEMES, plugin
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 ANSI_RE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
+EXPECTED_SYMBOLS = {
+    "success": "",
+    "warning": "",
+    "error": "",
+    "info": "",
+}
+EXPECTED_THEME_CONTRACTS = {
+    "high-contrast": {
+        "border": "square",
+        "density": "normal",
+        "collection_view": "table",
+        "detail_view": "list",
+        "color_roles": {
+            "header": "bold bright_cyan",
+            "border": "bright_cyan",
+            "key": "bold bright_cyan",
+            "value": "bright_white",
+            "success": "bold bright_green",
+            "info": "bold bright_blue",
+            "warning": "bold yellow",
+            "error": "bold bright_red",
+        },
+    },
+    "quiet": {
+        "border": "none",
+        "density": "compact",
+        "collection_view": "list",
+        "detail_view": "list",
+        "color_roles": {
+            "key": "dim cyan",
+            "success": "green",
+            "info": "blue",
+            "warning": "yellow",
+            "error": "red",
+        },
+    },
+    "classic": {
+        "border": "rounded",
+        "density": "normal",
+        "collection_view": "table",
+        "detail_view": "list",
+        "color_roles": {
+            "header": "bold cyan",
+            "border": "cyan",
+            "key": "cyan",
+            "value": "white",
+            "success": "green",
+            "info": "blue",
+            "warning": "yellow",
+            "error": "red",
+        },
+    },
+}
 
 
 class TtyStringIO(io.StringIO):
@@ -67,6 +120,22 @@ def test_theme_plugin_registers_exactly_three_themes() -> None:
 
     assert set(registry.themes) == {"classic", "high-contrast", "quiet"}
     assert registry.themes == THEMES
+
+
+@pytest.mark.parametrize("name", ["classic", "high-contrast", "quiet"])
+def test_registered_theme_presets_match_v1_contract(name: str) -> None:
+    registry = PluginRegistry()
+
+    plugin.register(registry)
+
+    theme = registry.themes[name]
+    expected = EXPECTED_THEME_CONTRACTS[name]
+    assert theme.border == expected["border"]
+    assert theme.density == expected["density"]
+    assert theme.collection_view == expected["collection_view"]
+    assert theme.detail_view == expected["detail_view"]
+    assert theme.color_roles == expected["color_roles"]
+    assert theme.symbols == EXPECTED_SYMBOLS
 
 
 def test_human_theme_output_emits_ansi_for_tty_stdout() -> None:
