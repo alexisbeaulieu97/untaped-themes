@@ -15,7 +15,7 @@ Install the plugin from git:
 
 ```bash
 untaped plugins add "untaped-themes @ git+https://github.com/alexisbeaulieu97/untaped-themes.git@v0.1.0" \
-  --tool-spec "git+https://github.com/alexisbeaulieu97/untaped.git@v0.1.3"
+  --tool-spec "git+https://github.com/alexisbeaulieu97/untaped.git@v0.1.4"
 ```
 
 For editable core development:
