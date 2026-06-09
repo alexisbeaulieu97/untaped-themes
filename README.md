@@ -14,16 +14,13 @@ Generic plugin install and sync workflow is documented in the core
 Install the plugin from git:
 
 ```bash
-untaped plugins add "untaped-themes @ git+https://github.com/alexisbeaulieu97/untaped-themes.git@v0.1.0" \
-  --tool-spec "git+https://github.com/alexisbeaulieu97/untaped.git@v0.1.4"
+untaped plugins add "untaped-themes @ git+https://github.com/alexisbeaulieu97/untaped-themes.git@v0.1.0"
 ```
 
-For editable core development:
+For editable plugin development:
 
 ```bash
-untaped plugins add /path/to/untaped-themes \
-  --tool-spec /path/to/untaped \
-  --editable-tool
+untaped plugins add --editable /path/to/untaped-themes
 ```
 
 ## Themes
