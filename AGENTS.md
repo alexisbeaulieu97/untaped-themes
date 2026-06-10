@@ -15,11 +15,12 @@ output behavior.
 
 1. Keep `AGENTS.md` up to date.
 2. Expose the plugin through the `untaped.plugins` entry point. The plugin
-   object must expose `id = "themes"`, literal `untaped_api_version = 2`, and
-   `register(registry)`.
+   object must expose `id = "themes"`, literal `untaped_api_version = 3`, and
+   `manifest()` returning a `PluginManifest`.
 3. This plugin registers theme presets only. Do not add a Cyclopts app, settings
    model, diagnostics, renderer API, prompt primitives, or agent skill in v1.
-4. Theme presets use `untaped.ThemeSpec`; do not duplicate renderer logic.
+4. Theme presets use `ThemeSpec`; import the SDK surface from `untaped.api`
+   only and do not duplicate renderer logic.
 5. Theme names are unprefixed and must remain unique: `high-contrast`,
    `quiet`, and `classic`.
 6. Do not set message symbols unless the product direction explicitly changes;
@@ -39,7 +40,7 @@ src/untaped_themes/
 └── plugin.py
 ```
 
-The plugin object registers three `ThemeSpec` presets with
-`registry.add_theme(...)`. It does not mount any CLI commands. Core resolves
-the selected theme from the global `ui.theme` setting and keeps structured
-formats independent from theme styling.
+The plugin object's `manifest()` returns a `PluginManifest` whose `themes`
+mapping contributes three `ThemeSpec` presets. It does not mount any CLI
+commands. Core resolves the selected theme from the global `ui.theme` setting
+and keeps structured formats independent from theme styling.
