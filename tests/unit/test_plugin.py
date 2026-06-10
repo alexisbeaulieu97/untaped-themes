@@ -11,11 +11,11 @@ from collections.abc import Iterator
 from pathlib import Path
 
 import pytest
-from typer.testing import CliRunner
 from untaped import UiContext, get_settings
 from untaped.main import build_app
 from untaped.plugins import PluginRegistry
 from untaped.settings import reset_config_registry_for_tests
+from untaped.testing import CliInvoker
 
 from untaped_themes.plugin import THEMES, plugin
 
@@ -110,7 +110,7 @@ def test_theme_plugin_entry_point_is_declared() -> None:
 
 def test_theme_plugin_declares_contract() -> None:
     assert plugin.id == "themes"
-    assert plugin.untaped_api_version == 1
+    assert plugin.untaped_api_version == 2
 
 
 def test_theme_plugin_registers_exactly_three_themes() -> None:
@@ -171,7 +171,7 @@ def test_root_app_uses_plugin_theme_for_human_table_output(_isolate_config: Path
     _isolate_config.write_text("ui:\n  theme: quiet\nprofiles:\n  default:\n    log_level: INFO\n")
     app = build_app(plugins=[plugin])
 
-    result = CliRunner().invoke(
+    result = CliInvoker().invoke(
         app,
         ["config", "list", "--format", "table", "--columns", "key", "--columns", "value"],
     )

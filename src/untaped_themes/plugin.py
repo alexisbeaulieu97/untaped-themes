@@ -58,7 +58,7 @@ class ThemesPlugin:
     """Register packaged terminal theme presets with the untaped runtime."""
 
     id = "themes"
-    untaped_api_version = 1
+    untaped_api_version = 2
 
     def register(self, registry: PluginRegistry) -> None:
         for name, theme in THEMES.items():
