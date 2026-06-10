@@ -15,9 +15,9 @@ output behavior.
 
 1. Keep `AGENTS.md` up to date.
 2. Expose the plugin through the `untaped.plugins` entry point. The plugin
-   object must expose `id = "themes"`, literal `untaped_api_version = 1`, and
+   object must expose `id = "themes"`, literal `untaped_api_version = 2`, and
    `register(registry)`.
-3. This plugin registers theme presets only. Do not add a Typer app, settings
+3. This plugin registers theme presets only. Do not add a Cyclopts app, settings
    model, diagnostics, renderer API, prompt primitives, or agent skill in v1.
 4. Theme presets use `untaped.ThemeSpec`; do not duplicate renderer logic.
 5. Theme names are unprefixed and must remain unique: `high-contrast`,
