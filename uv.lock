@@ -655,8 +655,8 @@ wheels = [
 
 [[package]]
 name = "untaped"
-version = "0.2.0"
-source = { git = "https://github.com/alexisbeaulieu97/untaped?branch=cyclopts-migration#0d2e61287be09c38c9cf327ecce27315ddf3dbaf" }
+version = "0.3.0"
+source = { git = "https://github.com/alexisbeaulieu97/untaped#9c3ceab9616aa1dddc23e1a14401351170dc9388" }
 dependencies = [
     { name = "cyclopts" },
     { name = "filelock" },
@@ -687,7 +687,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "untaped", git = "https://github.com/alexisbeaulieu97/untaped?branch=cyclopts-migration" }]
+requires-dist = [{ name = "untaped", git = "https://github.com/alexisbeaulieu97/untaped" }]
 
 [package.metadata.requires-dev]
 dev = [
