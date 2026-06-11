@@ -12,8 +12,9 @@ from pathlib import Path
 
 import pytest
 from untaped import UiContext, get_settings
+from untaped.api import PluginManifest
 from untaped.main import build_app
-from untaped.plugins import PluginRegistry
+from untaped.plugins import PluginRegistry, register_plugins
 from untaped.settings import reset_config_registry_for_tests
 from untaped.testing import CliInvoker
 
@@ -110,25 +111,35 @@ def test_theme_plugin_entry_point_is_declared() -> None:
 
 def test_theme_plugin_declares_contract() -> None:
     assert plugin.id == "themes"
-    assert plugin.untaped_api_version == 2
+    assert plugin.untaped_api_version == 3
 
 
-def test_theme_plugin_registers_exactly_three_themes() -> None:
+def test_manifest_contributes_exactly_three_themes_and_nothing_else() -> None:
+    manifest = plugin.manifest()
+
+    assert isinstance(manifest, PluginManifest)
+    assert set(manifest.themes) == {"classic", "high-contrast", "quiet"}
+    assert manifest.themes == THEMES
+    assert not manifest.clis
+    assert not manifest.profile_settings
+    assert not manifest.state_settings
+    assert not manifest.skills
+    assert not manifest.diagnostics
+
+
+def test_core_registers_manifest_without_load_errors() -> None:
     registry = PluginRegistry()
 
-    plugin.register(registry)
+    register_plugins(registry, [plugin])
 
-    assert set(registry.themes) == {"classic", "high-contrast", "quiet"}
+    assert registry.load_errors == []
+    assert registry.plugin_ids == {"themes"}
     assert registry.themes == THEMES
 
 
 @pytest.mark.parametrize("name", ["classic", "high-contrast", "quiet"])
 def test_registered_theme_presets_match_v1_contract(name: str) -> None:
-    registry = PluginRegistry()
-
-    plugin.register(registry)
-
-    theme = registry.themes[name]
+    theme = plugin.manifest().themes[name]
     expected = EXPECTED_THEME_CONTRACTS[name]
     assert theme.border == expected["border"]
     assert theme.density == expected["density"]

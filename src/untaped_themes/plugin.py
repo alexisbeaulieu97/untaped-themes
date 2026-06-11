@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-from untaped import ThemeSpec
-from untaped.plugins import PluginRegistry
+from untaped.api import PluginManifest, ThemeSpec
 
 THEMES: dict[str, ThemeSpec] = {
     "high-contrast": ThemeSpec(
@@ -55,14 +54,13 @@ THEMES: dict[str, ThemeSpec] = {
 
 
 class ThemesPlugin:
-    """Register packaged terminal theme presets with the untaped runtime."""
+    """Contribute packaged terminal theme presets to the untaped runtime."""
 
     id = "themes"
-    untaped_api_version = 2
+    untaped_api_version = 3
 
-    def register(self, registry: PluginRegistry) -> None:
-        for name, theme in THEMES.items():
-            registry.add_theme(name, theme)
+    def manifest(self) -> PluginManifest:
+        return PluginManifest(themes=THEMES)
 
 
 plugin = ThemesPlugin()
