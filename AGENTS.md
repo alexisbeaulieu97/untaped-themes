@@ -8,12 +8,14 @@ commit.
 
 `untaped-themes` is an `untaped` plugin. It owns external terminal theme
 presets registered through core `ThemeSpec`. `untaped` core owns the binary,
-plugin discovery, UI rendering, config/profile resolution, and structured
-output behavior.
+plugin discovery, UI rendering, config loading, and structured output behavior.
+Profile selection is contributed by `untaped-profile`.
 
 ## Hard Rules
 
-1. Keep `AGENTS.md` up to date.
+1. Keep `AGENTS.md` up to date. If this repo ever ships an agent skill, keep
+   its `SKILL.md` current with theme behavior, plugin contract, and workflow
+   changes.
 2. Expose the plugin through the `untaped.plugins` entry point. The plugin
    object must expose `id = "themes"`, literal `untaped_api_version = 3`, and
    `manifest()` returning a `PluginManifest`.
